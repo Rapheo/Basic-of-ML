@@ -1,0 +1,6 @@
+numpy tips:
+https://colab.research.google.com/drive/1Wqh60cHkbkhlK3jVMzilhjS_dtjszOtU?usp=sharing
+pandas tips:
+https://colab.research.google.com/drive/1QvfMZz9MJJ2QBNgvmYacFsiwTWtPgt9F?usp=sharing#scrollTo=Pz2fuIWySfJs
+Introduction to Data Preprocessing:
+https://colab.research.google.com/drive/1_794R2HWZJYT06Q2iXBouXsrzXX-bQ_P?usp=sharing

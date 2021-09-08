@@ -1,0 +1,64 @@
+from queue import Queue
+import numpy as np
+file = open('input.txt','r')
+
+line1 = file.readline().strip()
+print(line1)
+
+vertexCount = int(line1)
+print(vertexCount)
+
+line2 = file.readline().strip()
+print(line2)
+
+edgeCount = int(line2)
+print("edgecount"+str(edgeCount))
+
+adjMatrix = np.zeros((vertexCount,vertexCount),dtype='int')
+print(adjMatrix)
+
+for i in range(edgeCount):
+    line = file.readline().strip()
+    
+    
+    vertices = line.split(' ')
+    u = int(vertices[0])
+    v = int(vertices[1])
+    adjMatrix[u][v] +=1
+    adjMatrix[v][u] +=1
+    
+print('\n',adjMatrix)  
+
+color = np.empty((vertexCount),dtype= 'object') 
+color[:]='white'
+parent = np.empty((vertexCount),dtype= 'object') 
+parent[:]= np.NaN
+dis = np.empty((vertexCount),dtype= 'object')  
+dis[:] =99999
+
+myQueue = Queue(maxsize = vertexCount)
+
+# visited=[]
+
+def bfs(s):
+    color[s]= 'gray'
+    parent[s]= np.nan
+    dis[s]=0
+    myQueue.put(s)
+    while not myQueue.empty():
+        u = myQueue.get()
+        for v in range(vertexCount):
+            if adjMatrix[u][v]==1:
+                if color[v]== 'white':
+                    color[v]= 'gray'
+                   
+                    dis[v]=dis[u]+1
+                    parent[v]=u
+                    
+                    myQueue.put(v)
+        color[u]= 'black'
+        print(u, ' distance: ',dis[u])   
+
+bfs(6)
+print(dis[0])         
+    

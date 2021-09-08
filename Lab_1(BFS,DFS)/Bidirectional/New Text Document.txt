@@ -1,0 +1,79 @@
+def create_graph():
+
+    global graph
+    with open("input.txt", "r") as input_file:
+
+        file_contain = input_file.read().splitlines()
+        total_nodes = int(file_contain.pop(0))
+        total_edges = int(file_contain.pop(0))
+        goal_pos = int(file_contain.pop(len(file_contain)-1))
+        # goal_pos = 8
+        start_pos = 0
+        graph = {}
+        for i in range(len(file_contain)):
+            for j in file_contain:
+                if(int(j[0]) == i):
+                    graph.setdefault(
+                        int(j[0]), []).append(int(j[2]))
+                    graph.setdefault(int(j[2]), []).append(
+                        int(j[0]))  # undirected edges connects both ways              
+        result = bidirectional_search(start_pos, goal_pos)
+        print(result)
+        val = goal_pos
+        count = 0
+        while val != start_pos:
+            val = result[val]
+            count += 1
+        return count
+
+
+# using bfs
+def bidirectional_search(start, goal):
+    if(goal == start):
+        return goal
+
+    visited_forward = []
+    visited_backward = []
+    parent = [-1] * (len(graph))
+
+    queue_forward = []
+    queue_backward = []
+
+    queue_forward.append(start)
+    queue_backward.append(goal)
+
+    while queue_forward and queue_backward:
+        forward = queue_forward.pop(0)
+        backward = queue_backward.pop(0)
+        visited_forward.append(forward)
+        visited_backward.append(backward)
+        print("done")
+        # visited_backward.append(backward)
+
+        for near in graph[forward]:
+            if near not in visited_forward:
+                queue_forward.append(near)
+                if near not in visited_backward and parent[near] == -1:
+                    parent[near] = forward
+                else:
+                    print(forward)
+                    parent[near] = forward
+                    if goal in graph[near]:
+                        parent[goal] = near
+                    return parent
+
+        for near2 in graph[backward]:
+            if near2 not in visited_backward:
+                queue_backward.append(near2)
+                if near2 not in visited_forward and parent[backward] == -1:
+                    parent[backward] = near2
+                else:
+                    parent[backward] = near2
+
+        if(queue_forward[0] == queue_backward[0]):
+            return parent
+
+
+# Driver Code
+print(create_graph())
+
